@@ -1,64 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import StakeSpecs from './lib/StakeSpecs.js'
 
-function _z0(numPools) {
-  return 1 / numPools;
-}
-
-function _sigma(totalStakeInCurrentPool, currentTotalSupply, z0) {
-  return Math.min(totalStakeInCurrentPool / currentTotalSupply, z0);
-}
-
-function _nonmyopicSigma(totalStakeInCurrentPool, currentTotalSupply, z0) {
-  return Math.max(totalStakeInCurrentPool / currentTotalSupply, z0);
-}
-
-function _s(totalStakeFromPoolLeaders, currentTotalSupply, z0) {
-  return Math.min(totalStakeFromPoolLeaders / currentTotalSupply, z0);
-}
-
-function _t(totalStakeFromPoolLeaders, currentTotalSupply, totalStakeInCurrentPool, z0) {
-  if(totalStakeFromPoolLeaders / currentTotalSupply > z0) {
-    return 0;
-  } else {
-    return (totalStakeInCurrentPool - totalStakeFromPoolLeaders) / currentTotalSupply;
-  }
-}
-
-function _costInADA(costPerEpochInUSD, usdToADA) {
+function costInADA(costPerEpochInUSD, usdToADA) {
   return ADARound(costPerEpochInUSD / usdToADA);
-}
-
-function _R(currentTotalSupply, inflationRate) {
-  return ADARound(currentTotalSupply * (Math.pow(1+inflationRate/100, 1/73)) - currentTotalSupply);
-}
-
-function calculateTotalPoolReward(R, s, sigma, a0, z0) {
-  return ADARound(R/(1+a0) * (sigma + s*a0*(sigma-s*(z0-sigma)/z0)/z0));
-}
-
-function calculatePoolLeaderReward(totalPoolReward, c, m, s, sigma) {
-  if (totalPoolReward < c){
-    return totalPoolReward;
-  } else {
-    return ADARound(c + (totalPoolReward - c) * (m + (1 - m) * s / sigma));
-  }
-}
-
-function calculateMemberReward(totalPoolReward, c, m, t, sigma) {
-  if (totalPoolReward < c) {
-    return 0;
-  } else {
-    return ADARound((totalPoolReward - c) * (1 - m) * t / sigma);
-  }
-}
-
-function calculateDesirability(totalPoolReward, c, m) {
-  if (totalPoolReward <= c) {
-    return 0;
-  } else {
-    return ADARound((totalPoolReward - c) * (1 - m));
-  }
 }
 
 function ADARound(amount) {
@@ -69,59 +14,73 @@ function ADARound(amount) {
 
 class App extends Component {
   updateAll() {
+    var z0 = StakeSpecs.z0(this.state.desiredPools);
+    var sigma = StakeSpecs.sigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, z0);
+    var nonmyopicSigma = StakeSpecs.nonmyopicSigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, z0);
+    var s = StakeSpecs.s(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, z0);
+    var t = StakeSpecs.t(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, this.state.totalStakeInCurrentPool, z0);
+    var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
+    var R  = StakeSpecs.R(this.state.currentTotalSupply, this.state.inflationRate);
+    var myopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
+                                                          s,
+                                                          sigma,
+                                                          this.state.a0,
+                                                          z0));
+    var myopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(myopicTotalPoolReward,
+                                                          c,
+                                                          this.state.m,
+                                                          s,
+                                                          sigma));
+    var myopicMemberReward = ADARound(StakeSpecs.memberReward(myopicTotalPoolReward,
+                                                  c,
+                                                  this.state.m,
+                                                  t,
+                                                  sigma));
+
+    var myopicDesirability = ADARound(StakeSpecs.desirability(myopicTotalPoolReward,
+                                              c,
+                                              this.state.m,
+                                              sigma));
+
+    var nonmyopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
+                                                        s,
+                                                        z0,
+                                                        this.state.a0,
+                                                        z0));
+
+    var nonmyopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(nonmyopicTotalPoolReward,
+                                                         c,
+                                                         this.state.m,
+                                                         s,
+                                                         nonmyopicSigma));
+
+    var nonmyopicMemberReward = ADARound(StakeSpecs.memberReward(nonmyopicTotalPoolReward,
+                                                     c,
+                                                     this.state.m,
+                                                     t,
+                                                     nonmyopicSigma));
+
+    var nonmyopicDesirability = ADARound(StakeSpecs.desirability(nonmyopicTotalPoolReward,
+                                                 c,
+                                                 this.state.m,
+                                                 z0));
+
     this.setState({
-                    z0: _z0(this.state.desiredPools),
-                    sigma: _sigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, _z0(this.state.desiredPools),),
-                    nonmyopicSigma: _nonmyopicSigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, _z0(this.state.desiredPools),),
-                    s: _s(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, _z0(this.state.desiredPools),),
-                    t: _t(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, this.state.totalStakeInCurrentPool, _z0(this.state.desiredPools),),
-                    c: _costInADA(this.state.costPerEpochInUSD, this.state.usdToADA),
-                    R : _R(this.state.currentTotalSupply, this.state.inflationRate)
-                  }, ()=>{
-                            this.setState({
-                                            myopicTotalPoolReward: calculateTotalPoolReward(this.state.R,
-                                                                      this.state.s,
-                                                                      this.state.sigma,
-                                                                      this.state.a0,
-                                                                      this.state.z0)
-                                          }, ()=>{
-                                                    this.setState({myopicPoolLeaderReward: calculatePoolLeaderReward(this.state.myopicTotalPoolReward,
-                                                                                                               this.state.c,
-                                                                                                               this.state.m,
-                                                                                                               this.state.s,
-                                                                                                               this.state.sigma)});
-                                                    this.setState({myopicMemberReward: calculateMemberReward(this.state.myopicTotalPoolReward,
-                                                                                                       this.state.c,
-                                                                                                       this.state.m,
-                                                                                                       this.state.t,
-                                                                                                       this.state.sigma)});
-                                                    this.setState({myopicDesirability: calculateDesirability(this.state.myopicTotalPoolReward,
-                                                                                                             this.state.c,
-                                                                                                             this.state.m,
-                                                                                                             this.state.sigma)});
-                                                });
-                            this.setState({
-                                            nonmyopicTotalPoolReward: calculateTotalPoolReward(this.state.R,
-                                                                      this.state.s,
-                                                                      this.state.z0,
-                                                                      this.state.a0,
-                                                                      this.state.z0)
-                                          }, ()=>{
-                                                    this.setState({nonmyopicPoolLeaderReward: calculatePoolLeaderReward(this.state.nonmyopicTotalPoolReward,
-                                                                                                               this.state.c,
-                                                                                                               this.state.m,
-                                                                                                               this.state.s,
-                                                                                                               this.state.nonmyopicSigma)});
-                                                    this.setState({nonmyopicMemberReward: calculateMemberReward(this.state.nonmyopicTotalPoolReward,
-                                                                                                       this.state.c,
-                                                                                                       this.state.m,
-                                                                                                       this.state.t,
-                                                                                                       this.state.nonmyopicSigma)});
-                                                    this.setState({nonmyopicDesirability: calculateDesirability(this.state.nonmyopicTotalPoolReward,
-                                                                                                               this.state.c,
-                                                                                                               this.state.m,
-                                                                                                               this.state.z0)});
-                                                  });
+                    z0: z0,
+                    sigma: sigma,
+                    nonmyopicSigma: nonmyopicSigma,
+                    s: s,
+                    t: t,
+                    c: c,
+                    R: R,
+                    myopicTotalPoolReward: myopicTotalPoolReward,
+                    myopicPoolLeaderReward: myopicPoolLeaderReward,
+                    myopicMemberReward: myopicMemberReward,
+                    myopicDesirability: myopicDesirability,
+                    nonmyopicTotalPoolReward: nonmyopicTotalPoolReward,
+                    nonmyopicPoolLeaderReward: nonmyopicPoolLeaderReward,
+                    nonmyopicMemberReward: nonmyopicMemberReward,
+                    nonmyopicDesirability: nonmyopicDesirability
                   });
   }
 
