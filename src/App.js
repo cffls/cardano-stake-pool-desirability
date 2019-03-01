@@ -173,7 +173,7 @@ class App extends Component {
             <div>Total ADA Supply</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">ADA</span>
+                <span className="input-group-text">₳</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('currentTotalSupply', e)} defaultValue={this.state.currentTotalSupply}/>
             </div>
@@ -194,14 +194,14 @@ class App extends Component {
             <div>Total stake in current pool</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">ADA</span>
+                <span className="input-group-text">₳</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('totalStakeInCurrentPool', e)} defaultValue={this.state.totalStakeInCurrentPool}/>
             </div>
             <div>Total stake from pool leader</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">ADA</span>
+                <span className="input-group-text">₳</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('totalStakeFromPoolLeaders', e)} defaultValue={this.state.totalStakeFromPoolLeaders}/>
             </div>
@@ -218,8 +218,8 @@ class App extends Component {
                 <span className="input-group-text">$</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('costPerEpochInUSD', e)} defaultValue={this.state.costPerEpochInUSD}/>
-              <div className="input-group-append">
-                <span className="input-group-text">{this.state.c} ADA</span>
+              <div className="input-group-prepend">
+                <span className="input-group-text">₳ {this.state.c}</span>
               </div>
             </div>
             <div>Margin taken by pool leader</div>
@@ -240,7 +240,7 @@ class App extends Component {
                 <div>Myopic estimation</div>
               </li>
               <li className="list-group-item">
-                <div>Myopic total pool reward per epoch</div>
+                <div>Total pool reward per epoch</div>
                 <div>{this.state.myopicTotalPoolReward}</div>
               </li>
               <li className="list-group-item">
@@ -248,32 +248,32 @@ class App extends Component {
                 <div>{this.state.myopicPoolLeaderReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Myopic member reward per epoch</div>
+                <div>Member reward per epoch</div>
                 <div>{this.state.myopicMemberReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Myopic Desirability</div>
+                <div>Desirability</div>
                 <div>{this.state.myopicDesirability}</div>
               </li>
             </ul>
             <ul className="list-group dependent-variable-panel">
               <li className="list-group-item list-group-item-action active">
-                <div>Non-myopic estimation (When the pool is saturated)</div>
+                <div>Non-myopic estimation</div>
               </li>
               <li className="list-group-item">
-                <div>Non-myopic total pool reward per epoch</div>
+                <div>Total pool reward per epoch</div>
                 <div>{this.state.nonmyopicTotalPoolReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Non-myopic pool leader reward per epoch</div>
+                <div>Pool leader reward per epoch</div>
                 <div>{this.state.nonmyopicPoolLeaderReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Non-myopic member reward per epoch</div>
+                <div>Member reward per epoch</div>
                 <div>{this.state.nonmyopicMemberReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Non-myopic Desirability</div>
+                <div>Desirability</div>
                 <div>{this.state.nonmyopicDesirability}</div>
               </li>
             </ul>
