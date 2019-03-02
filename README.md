@@ -1,7 +1,7 @@
 ## What is this project?
 
-This project estimates desirabilities of cardano stack pools, as well as rewards for stack pool leaders and stack pool members. <br>
-The calculation is based on the cardano delegation design specification, available [here](https://github.com/input-output-hk/fm-ledger-rules/tree/master/docs/delegation_design_spec).
+This project estimates desirabilities of Cardano stack pools, as well as rewards for stack pool leaders and stack pool members. <br>
+The calculation is based on [cardano delegation design specification](https://github.com/input-output-hk/fm-ledger-rules/tree/master/docs/delegation_design_spec).
 
 ### What is desirability?
 
@@ -9,14 +9,15 @@ Desirability of a stake pool shows how desirable it is for participants to deleg
 
 ### Why should I care about desirabilities?
 
-After Cardano enters Shelley (decentralization), people will be able to delegate their stake or run their own stake pools. Stake pools will be ranked by their desirabilities and be shown on Daedalus. Participants will delegate their stakes to pools with higher desirabilities. Therefore, you might be interested in desirability if you want to:
-* know if it is profitable to run your own stake pools
-* experiment your choice of cost and margin for your pools
-* calculate your rewards if you delegate to a specific pool 
+After Cardano enters Shelley (decentralization), people will be able to delegate their stake or run their own stake pools. Stake pools will be ranked by their desirabilities and be shown on Daedalus. Participants will be delegating their stakes to pools that have higher desirabilities for more rewards. Desirability is important if you are interested in:
+* running your own stake pools
+* experimenting your choices of cost and fee(margin) for your pools
 
-## Available Scripts
+## Getting started
 
-In the project directory, you can run:
+The webapp is available [here](https://cffls.github.io/cardano-stake-pool-desirability/).
+
+If you want to build your own version, in the project directory, you can run:
 
 ### `npm start`
 
