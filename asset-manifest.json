@@ -1,13 +1,13 @@
 {
-  "main.css": "/cardano-stake-pool-desirability/static/css/main.699ac8f0.chunk.css",
-  "main.js": "/cardano-stake-pool-desirability/static/js/main.eecd34f2.chunk.js",
-  "main.js.map": "/cardano-stake-pool-desirability/static/js/main.eecd34f2.chunk.js.map",
+  "main.css": "/cardano-stake-pool-desirability/static/css/main.dab7049b.chunk.css",
+  "main.js": "/cardano-stake-pool-desirability/static/js/main.08c04bc1.chunk.js",
+  "main.js.map": "/cardano-stake-pool-desirability/static/js/main.08c04bc1.chunk.js.map",
   "runtime~main.js": "/cardano-stake-pool-desirability/static/js/runtime~main.6adc28c4.js",
   "runtime~main.js.map": "/cardano-stake-pool-desirability/static/js/runtime~main.6adc28c4.js.map",
   "static/js/2.b97c76ec.chunk.js": "/cardano-stake-pool-desirability/static/js/2.b97c76ec.chunk.js",
   "static/js/2.b97c76ec.chunk.js.map": "/cardano-stake-pool-desirability/static/js/2.b97c76ec.chunk.js.map",
   "index.html": "/cardano-stake-pool-desirability/index.html",
-  "precache-manifest.a0a377901804bad9ea862dd1e8f2248f.js": "/cardano-stake-pool-desirability/precache-manifest.a0a377901804bad9ea862dd1e8f2248f.js",
+  "precache-manifest.211cfb919fdbce2ff41852789c9c4ccb.js": "/cardano-stake-pool-desirability/precache-manifest.211cfb919fdbce2ff41852789c9c4ccb.js",
   "service-worker.js": "/cardano-stake-pool-desirability/service-worker.js",
-  "static/css/main.699ac8f0.chunk.css.map": "/cardano-stake-pool-desirability/static/css/main.699ac8f0.chunk.css.map"
+  "static/css/main.dab7049b.chunk.css.map": "/cardano-stake-pool-desirability/static/css/main.dab7049b.chunk.css.map"
 }
