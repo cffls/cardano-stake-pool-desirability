@@ -5,3 +5,9 @@
 .dependent-variable-panel{
   margin-bottom: 20px;
 }
+
+#githublink {
+  position: absolute;
+  right: 15px;
+  text-decoration: none;
+}

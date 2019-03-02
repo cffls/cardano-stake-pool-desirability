@@ -28,18 +28,18 @@ class App extends Component {
                                                           z0));
     var myopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(myopicTotalPoolReward,
                                                           c,
-                                                          this.state.m,
+                                                          this.state.m/100,
                                                           s,
                                                           sigma));
     var myopicMemberReward = ADARound(StakeSpecs.memberReward(myopicTotalPoolReward,
                                                   c,
-                                                  this.state.m,
+                                                  this.state.m/100,
                                                   t,
                                                   sigma));
 
     var myopicDesirability = ADARound(StakeSpecs.desirability(myopicTotalPoolReward,
                                               c,
-                                              this.state.m,
+                                              this.state.m/100,
                                               sigma));
 
     var nonmyopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
@@ -50,19 +50,19 @@ class App extends Component {
 
     var nonmyopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(nonmyopicTotalPoolReward,
                                                          c,
-                                                         this.state.m,
+                                                         this.state.m/100,
                                                          s,
                                                          nonmyopicSigma));
 
     var nonmyopicMemberReward = ADARound(StakeSpecs.memberReward(nonmyopicTotalPoolReward,
                                                      c,
-                                                     this.state.m,
+                                                     this.state.m/100,
                                                      t,
                                                      nonmyopicSigma));
 
     var nonmyopicDesirability = ADARound(StakeSpecs.desirability(nonmyopicTotalPoolReward,
                                                  c,
-                                                 this.state.m,
+                                                 this.state.m/100,
                                                  z0));
 
     this.setState({
@@ -87,13 +87,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     var currentTotalSupply = 31000000000;
-    var a0 = 0.02;
+    var a0 = 0.02; // Pool leader influence factor
     var desiredPools = 100;
     var totalStakeInCurrentPool = 5000000;
     var totalStakeFromPoolLeaders = 1000000;
     var usdToADA = 0.05;
     var costPerEpochInUSD = 50;
-    var m = 0.01
+    var m = 1 // Pool fee %
     var inflationRate = 0.05 // Inflation rate in percent
     this.state = {
       currentTotalSupply: currentTotalSupply,
@@ -181,10 +181,10 @@ class App extends Component {
                 <span className="input-group-text">₳ {this.state.c}</span>
               </div>
             </div>
-            <div>Margin taken by pool leader</div>
+            <div>Pool fee</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">(0,1)</span>
+                <span className="input-group-text">%</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('m', e)} defaultValue={this.state.m}/>
             </div>
@@ -236,6 +236,7 @@ class App extends Component {
                 <div>{this.state.nonmyopicDesirability}</div>
               </li>
             </ul>
+            <a id="githublink" href="https://github.com/cffls/cardano-stake-pool-desirability"><span>Github </span><em class="fa fa-github"></em></a>
           </div>
         </div>
       </div>
