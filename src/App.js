@@ -14,11 +14,11 @@ function ADARound(amount) {
 
 class App extends Component {
   updateAll() {
-    var z0 = StakeSpecs.z0(this.state.desiredPools);
-    var sigma = StakeSpecs.sigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, z0);
-    var nonmyopicSigma = StakeSpecs.nonmyopicSigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply, z0);
-    var s = StakeSpecs.s(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, z0);
-    var t = StakeSpecs.t(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply, this.state.totalStakeInCurrentPool, z0);
+    var z0 = StakeSpecs.z0(this.state.targetNumPools);
+    var sigma = StakeSpecs.sigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply);
+    var s = StakeSpecs.s(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply);
+    var nonmyopicSigma = StakeSpecs.nonmyopicSigma(s, sigma, this.state.r, z0, this.state.targetNumPools);
+    var t = StakeSpecs.t(this.state.totalStakeInCurrentPool, this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply);
     var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
     var R  = StakeSpecs.R(this.state.currentTotalSupply, this.state.inflationRate);
     var myopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
@@ -44,7 +44,7 @@ class App extends Component {
 
     var nonmyopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
                                                         s,
-                                                        z0,
+                                                        nonmyopicSigma,
                                                         this.state.a0,
                                                         z0));
 
@@ -88,25 +88,26 @@ class App extends Component {
     super(props);
     var currentTotalSupply = 31000000000;
     var a0 = 0.02; // Pool leader influence factor
-    var desiredPools = 100;
-    var totalStakeInCurrentPool = 5000000;
+    var targetNumPools = 100;
+    var r = 20; //Rank of the pool
+    var totalStakeInCurrentPool = 100000000;
     var totalStakeFromPoolLeaders = 1000000;
     var usdToADA = 0.05;
-    var costPerEpochInUSD = 50;
+    var costPerEpochInUSD = 5;
     var m = 1 // Pool fee %
     var inflationRate = 0.05 // Inflation rate in percent
     this.state = {
       currentTotalSupply: currentTotalSupply,
-      desiredPools: desiredPools,
+      targetNumPools: targetNumPools,
       totalStakeInCurrentPool: totalStakeInCurrentPool,
       totalStakeFromPoolLeaders: totalStakeFromPoolLeaders,
       a0: a0,
+      r: r,
       usdToADA: usdToADA,
       costPerEpochInUSD: costPerEpochInUSD,
       m: m,
       inflationRate: inflationRate
     }
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(key, e) {
@@ -152,7 +153,14 @@ class App extends Component {
               <div className="input-group-prepend">
                 <span className="input-group-text">#</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('desiredPools', e)} defaultValue={this.state.desiredPools}/>
+              <input className="form-control" onChange={(e) => this.handleChange('targetNumPools', e)} defaultValue={this.state.targetNumPools}/>
+            </div>
+            <div>Current rank of the pool</div>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text">#</span>
+              </div>
+              <input className="form-control" onChange={(e) => this.handleChange('r', e)} defaultValue={this.state.r}/>
             </div>
             <div>Total stake in current pool</div>
             <div className="input-group mb-3">
@@ -220,7 +228,7 @@ class App extends Component {
                 <div>Non-myopic estimation</div>
               </li>
               <li className="list-group-item">
-                <div>Total pool reward per epoch</div>
+                <div>Total pool reward per epoch when pool is saturated</div>
                 <div>{this.state.nonmyopicTotalPoolReward}</div>
               </li>
               <li className="list-group-item">
@@ -236,7 +244,7 @@ class App extends Component {
                 <div>{this.state.nonmyopicDesirability}</div>
               </li>
             </ul>
-            <a id="githublink" href="https://github.com/cffls/cardano-stake-pool-desirability"><span>Github </span><em class="fa fa-github"></em></a>
+            <a id="githublink" href="https://github.com/cffls/cardano-stake-pool-desirability"><span>Github </span><em className="fa fa-github"></em></a>
           </div>
         </div>
       </div>

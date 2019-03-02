@@ -2,24 +2,24 @@ function z0(numPools) {
   return 1 / numPools;
 }
 
-function sigma(totalStakeInCurrentPool, currentTotalSupply, z0) {
-  return Math.min(totalStakeInCurrentPool / currentTotalSupply, z0);
+function sigma(totalStakeInCurrentPool, currentTotalSupply) {
+  return totalStakeInCurrentPool / currentTotalSupply;
 }
 
-function nonmyopicSigma(totalStakeInCurrentPool, currentTotalSupply, z0) {
-  return Math.max(totalStakeInCurrentPool / currentTotalSupply, z0);
-}
-
-function s(totalStakeFromPoolLeaders, currentTotalSupply, z0) {
-  return Math.min(totalStakeFromPoolLeaders / currentTotalSupply, z0);
-}
-
-function t(totalStakeFromPoolLeaders, currentTotalSupply, totalStakeInCurrentPool, z0) {
-  if(totalStakeFromPoolLeaders / currentTotalSupply > z0) {
-    return 0;
+function nonmyopicSigma(s, sigma, r, z0, k) {
+  if (r<=k){
+    return Math.max(sigma, z0);
   } else {
-    return (totalStakeInCurrentPool - totalStakeFromPoolLeaders) / currentTotalSupply;
+    return s;
   }
+}
+
+function s(totalStakeFromPoolLeaders, currentTotalSupply) {
+  return totalStakeFromPoolLeaders / currentTotalSupply;
+}
+
+function t(totalStakeInCurrentPool, totalStakeFromPoolLeaders, currentTotalSupply) {
+  return (totalStakeInCurrentPool - totalStakeFromPoolLeaders) / currentTotalSupply;
 }
 
 function R(currentTotalSupply, inflationRate) {
@@ -27,7 +27,9 @@ function R(currentTotalSupply, inflationRate) {
 }
 
 function totalPoolReward(R, s, sigma, a0, z0) {
-  return R/(1+a0) * (sigma + s*a0*(sigma-s*(z0-sigma)/z0)/z0);
+  var sP = Math.min(s, z0);
+  var sigmaP = Math.min(sigma, z0);
+  return R/(1+a0) * (sigmaP + sP*a0*(sigmaP-sP*(z0-sigmaP)/z0)/z0);
 }
 
 function poolLeaderReward(totalPoolReward, c, m, s, sigma) {
