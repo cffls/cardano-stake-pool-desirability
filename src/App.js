@@ -123,12 +123,12 @@ class App extends Component {
     return (
       <div className="container" >
         <div className="row title">
-          <div className="alert alert-primary col-9 offset-md-2" role="alert">
+          <div className="alert alert-primary col-sm-9 offset-sm-2" role="alert">
             <h4 className="alert-heading">Cardano Stake Pool Desirability Estimation</h4>
           </div>
         </div>
         <div className="row">
-          <div className="col-3 offset-md-2 card">
+          <div className="col-sm-3 offset-sm-2 card">
             <div>Total ADA Supply</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
@@ -136,12 +136,16 @@ class App extends Component {
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('currentTotalSupply', e)} defaultValue={this.state.currentTotalSupply}/>
             </div>
-            <div>Inflation rate per epoch ρ</div>
+            <div>Inflation rate per epoch</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">%</span>
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('inflationRate', e)} defaultValue={this.state.inflationRate}/>
+            </div>
+            <div>Pool leader influence factor</div>
+            <div className="input-group mb-3">
+              <input className="form-control" onChange={(e) => this.handleChange('a0', e)} defaultValue={this.state.a0}/>
             </div>
             <div>Number of desired pools</div>
             <div className="input-group mb-3">
@@ -188,12 +192,8 @@ class App extends Component {
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('m', e)} defaultValue={this.state.m}/>
             </div>
-            <div>Pool leader influence factor</div>
-            <div className="input-group mb-3">
-              <input className="form-control" onChange={(e) => this.handleChange('a0', e)} defaultValue={this.state.a0}/>
-            </div>
           </div>
-          <div className="col-5 offset-md-1">
+          <div className="col-sm-5 offset-sm-1">
             <ul className="list-group dependent-variable-panel">
               <li className="list-group-item list-group-item-action active">
                 <div>Myopic estimation</div>
