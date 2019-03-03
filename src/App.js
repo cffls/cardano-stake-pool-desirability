@@ -94,8 +94,8 @@ class App extends Component {
     var totalStakeFromPoolLeaders = 1000000;
     var usdToADA = 0.05;
     var costPerEpochInUSD = 5;
-    var m = 1 // Pool fee %
-    var inflationRate = 0.05 // Inflation rate in percent
+    var m = 5 // Pool fee %
+    var inflationRate = 4.5 // Inflation rate in percent
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
@@ -137,7 +137,7 @@ class App extends Component {
               </div>
               <input className="form-control" onChange={(e) => this.handleChange('currentTotalSupply', e)} defaultValue={this.state.currentTotalSupply}/>
             </div>
-            <div>Inflation rate per epoch</div>
+            <div>Inflation rate per year</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">%</span>
