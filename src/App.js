@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import StakeSpecs from './lib/StakeSpecs.js'
+import React, { Component } from "react";
+import "./App.css";
+import StakeSpecs from "./model/StakeSpecs.js";
 
 function costInADA(costPerEpochInUSD, usdToADA) {
   return ADARound(costPerEpochInUSD / usdToADA);
@@ -8,80 +8,118 @@ function costInADA(costPerEpochInUSD, usdToADA) {
 
 function ADARound(amount) {
   // Round to 6 decimals
-  return Math.round(amount*1000000)/1000000;
+  return Math.round(amount * 1000000) / 1000000;
 }
-
 
 class App extends Component {
   updateAll() {
     var z0 = StakeSpecs.z0(this.state.targetNumPools);
-    var sigma = StakeSpecs.sigma(this.state.totalStakeInCurrentPool, this.state.currentTotalSupply);
-    var s = StakeSpecs.s(this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply);
-    var nonmyopicSigma = StakeSpecs.nonmyopicSigma(s, sigma, this.state.r, z0, this.state.targetNumPools);
-    var t = StakeSpecs.t(this.state.totalStakeInCurrentPool, this.state.totalStakeFromPoolLeaders, this.state.currentTotalSupply);
+    var sigma = StakeSpecs.sigma(
+      this.state.totalStakeInCurrentPool,
+      this.state.currentTotalSupply
+    );
+    var s = StakeSpecs.s(
+      this.state.totalStakeFromPoolLeaders,
+      this.state.currentTotalSupply
+    );
+    var nonmyopicSigma = StakeSpecs.nonmyopicSigma(
+      s,
+      sigma,
+      this.state.r,
+      z0,
+      this.state.targetNumPools
+    );
+    var t = StakeSpecs.t(
+      this.state.totalStakeInCurrentPool,
+      this.state.totalStakeFromPoolLeaders,
+      this.state.currentTotalSupply
+    );
     var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
-    var R  = StakeSpecs.R(this.state.currentTotalSupply, this.state.inflationRate);
-    var myopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
-                                                          s,
-                                                          sigma,
-                                                          this.state.a0,
-                                                          z0));
-    var myopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(myopicTotalPoolReward,
-                                                          c,
-                                                          this.state.m/100,
-                                                          s,
-                                                          sigma));
-    var myopicMemberReward = ADARound(StakeSpecs.memberReward(myopicTotalPoolReward,
-                                                  c,
-                                                  this.state.m/100,
-                                                  t,
-                                                  sigma));
+    var R = StakeSpecs.R(
+      this.state.currentTotalSupply,
+      this.state.inflationRate
+    );
+    var myopicTotalPoolReward = ADARound(
+      StakeSpecs.totalPoolReward(R, s, sigma, this.state.a0, z0)
+    );
+    var myopicPoolLeaderReward = ADARound(
+      StakeSpecs.poolLeaderReward(
+        myopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        s,
+        sigma
+      )
+    );
+    var myopicMemberReward = ADARound(
+      StakeSpecs.memberReward(
+        myopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        t,
+        sigma
+      )
+    );
 
-    var myopicDesirability = ADARound(StakeSpecs.desirability(myopicTotalPoolReward,
-                                              c,
-                                              this.state.m/100,
-                                              sigma));
+    var myopicDesirability = ADARound(
+      StakeSpecs.desirability(
+        myopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        sigma
+      )
+    );
 
-    var nonmyopicTotalPoolReward = ADARound(StakeSpecs.totalPoolReward(R,
-                                                        s,
-                                                        nonmyopicSigma,
-                                                        this.state.a0,
-                                                        z0));
+    var nonmyopicTotalPoolReward = ADARound(
+      StakeSpecs.totalPoolReward(R, s, nonmyopicSigma, this.state.a0, z0)
+    );
 
-    var nonmyopicPoolLeaderReward = ADARound(StakeSpecs.poolLeaderReward(nonmyopicTotalPoolReward,
-                                                         c,
-                                                         this.state.m/100,
-                                                         s,
-                                                         nonmyopicSigma));
+    var nonmyopicPoolLeaderReward = ADARound(
+      StakeSpecs.poolLeaderReward(
+        nonmyopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        s,
+        nonmyopicSigma
+      )
+    );
 
-    var nonmyopicMemberReward = ADARound(StakeSpecs.memberReward(nonmyopicTotalPoolReward,
-                                                     c,
-                                                     this.state.m/100,
-                                                     t,
-                                                     nonmyopicSigma));
+    var nonmyopicMemberReward = ADARound(
+      StakeSpecs.memberReward(
+        nonmyopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        t,
+        nonmyopicSigma
+      )
+    );
 
-    var nonmyopicDesirability = ADARound(StakeSpecs.desirability(nonmyopicTotalPoolReward,
-                                                 c,
-                                                 this.state.m/100,
-                                                 z0));
+    var nonmyopicDesirability = ADARound(
+      StakeSpecs.desirability(
+        nonmyopicTotalPoolReward,
+        c,
+        this.state.m / 100,
+        z0
+      )
+    );
 
     this.setState({
-                    z0: z0,
-                    sigma: sigma,
-                    nonmyopicSigma: nonmyopicSigma,
-                    s: s,
-                    t: t,
-                    c: c,
-                    R: R,
-                    myopicTotalPoolReward: myopicTotalPoolReward,
-                    myopicPoolLeaderReward: myopicPoolLeaderReward,
-                    myopicMemberReward: myopicMemberReward,
-                    myopicDesirability: myopicDesirability,
-                    nonmyopicTotalPoolReward: nonmyopicTotalPoolReward,
-                    nonmyopicPoolLeaderReward: nonmyopicPoolLeaderReward,
-                    nonmyopicMemberReward: nonmyopicMemberReward,
-                    nonmyopicDesirability: nonmyopicDesirability
-                  });
+      z0: z0,
+      sigma: sigma,
+      nonmyopicSigma: nonmyopicSigma,
+      s: s,
+      t: t,
+      c: c,
+      R: R,
+      myopicTotalPoolReward: myopicTotalPoolReward,
+      myopicPoolLeaderReward: myopicPoolLeaderReward,
+      myopicMemberReward: myopicMemberReward,
+      myopicDesirability: myopicDesirability,
+      nonmyopicTotalPoolReward: nonmyopicTotalPoolReward,
+      nonmyopicPoolLeaderReward: nonmyopicPoolLeaderReward,
+      nonmyopicMemberReward: nonmyopicMemberReward,
+      nonmyopicDesirability: nonmyopicDesirability
+    });
   }
 
   constructor(props) {
@@ -94,8 +132,8 @@ class App extends Component {
     var totalStakeFromPoolLeaders = 1000000;
     var usdToADA = 0.05;
     var costPerEpochInUSD = 5;
-    var m = 5 // Pool fee %
-    var inflationRate = 4.5 // Inflation rate in percent
+    var m = 5; // Pool fee %
+    var inflationRate = 4.5; // Inflation rate in percent
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
@@ -107,25 +145,30 @@ class App extends Component {
       costPerEpochInUSD: costPerEpochInUSD,
       m: m,
       inflationRate: inflationRate
-    }
+    };
   }
 
   handleChange(key, e) {
-    this.setState({[key]: parseFloat(e.target.value)}, ()=>{this.updateAll()})
+    this.setState({ [key]: parseFloat(e.target.value) }, () => {
+      this.updateAll();
+    });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateAll();
   }
 
-
-
   render() {
     return (
-      <div className="container" >
+      <div className="container">
         <div className="row title">
-          <div className="alert alert-primary col-sm-9 offset-sm-2" role="alert">
-            <h4 className="alert-heading">Cardano Stake Pool Desirability Estimation</h4>
+          <div
+            className="alert alert-primary col-sm-9 offset-sm-2"
+            role="alert"
+          >
+            <h4 className="alert-heading">
+              Cardano Stake Pool Desirability Estimation
+            </h4>
           </div>
         </div>
         <div className="row">
@@ -135,60 +178,98 @@ class App extends Component {
               <div className="input-group-prepend">
                 <span className="input-group-text">₳</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('currentTotalSupply', e)} defaultValue={this.state.currentTotalSupply}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("currentTotalSupply", e)}
+                defaultValue={this.state.currentTotalSupply}
+              />
             </div>
             <div>Inflation rate per year</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">%</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('inflationRate', e)} defaultValue={this.state.inflationRate}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("inflationRate", e)}
+                defaultValue={this.state.inflationRate}
+              />
             </div>
             <div>Pool leader influence factor</div>
             <div className="input-group mb-3">
-              <input className="form-control" onChange={(e) => this.handleChange('a0', e)} defaultValue={this.state.a0}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("a0", e)}
+                defaultValue={this.state.a0}
+              />
             </div>
             <div>Number of desired pools</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">#</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('targetNumPools', e)} defaultValue={this.state.targetNumPools}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("targetNumPools", e)}
+                defaultValue={this.state.targetNumPools}
+              />
             </div>
             <div>Current rank of the pool</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">#</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('r', e)} defaultValue={this.state.r}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("r", e)}
+                defaultValue={this.state.r}
+              />
             </div>
             <div>Total stake in current pool</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">₳</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('totalStakeInCurrentPool', e)} defaultValue={this.state.totalStakeInCurrentPool}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("totalStakeInCurrentPool", e)}
+                defaultValue={this.state.totalStakeInCurrentPool}
+              />
             </div>
             <div>Total stake from pool leader</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">₳</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('totalStakeFromPoolLeaders', e)} defaultValue={this.state.totalStakeFromPoolLeaders}/>
+              <input
+                className="form-control"
+                onChange={e =>
+                  this.handleChange("totalStakeFromPoolLeaders", e)
+                }
+                defaultValue={this.state.totalStakeFromPoolLeaders}
+              />
             </div>
             <div>Exchange rate</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">USD/ADA</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('usdToADA', e)} defaultValue={this.state.usdToADA}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("usdToADA", e)}
+                defaultValue={this.state.usdToADA}
+              />
             </div>
             <div>Cost per epoch</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">$</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('costPerEpochInUSD', e)} defaultValue={this.state.costPerEpochInUSD}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("costPerEpochInUSD", e)}
+                defaultValue={this.state.costPerEpochInUSD}
+              />
               <div className="input-group-prepend">
                 <span className="input-group-text">₳ {this.state.c}</span>
               </div>
@@ -198,7 +279,11 @@ class App extends Component {
               <div className="input-group-prepend">
                 <span className="input-group-text">%</span>
               </div>
-              <input className="form-control" onChange={(e) => this.handleChange('m', e)} defaultValue={this.state.m}/>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("m", e)}
+                defaultValue={this.state.m}
+              />
             </div>
           </div>
           <div className="col-sm-5 offset-sm-1">
@@ -244,7 +329,13 @@ class App extends Component {
                 <div>{this.state.nonmyopicDesirability}</div>
               </li>
             </ul>
-            <a id="githublink" href="https://github.com/cffls/cardano-stake-pool-desirability"><span>Github </span><em className="fa fa-github"></em></a>
+            <a
+              id="githublink"
+              href="https://github.com/cffls/cardano-stake-pool-desirability"
+            >
+              <span>Github </span>
+              <em className="fa fa-github" />
+            </a>
           </div>
         </div>
       </div>
