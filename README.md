@@ -13,6 +13,14 @@ After Cardano enters Shelley (decentralization), people will be able to delegate
 * running your own stake pools
 * experimenting your choices of cost and fee(margin) for your pools
 
+### What are "Myopic desirability" and "Non-Myopic desirability"?
+
+Myopic desirability is proportional to immediate stake member rewards in the current epoch. In contrast, non-myopic desirability is proportional to long-term stake member rewards when a pool is saturated. Myopic desirability will be equal to non-myopic desirability in a saturated pool.
+
+### What is pool leader influence factor?
+
+Pool leader influence factor is the degree of influence a pool operator’s pledged stake has on pool rewards. This factor is used in reward calculation to prevent sybil attacks, where malicious attackers can possibly create dozens or even hundreds of small pools to produce majority of blocks. For more details, please read this blog ([Preventing Sybil Attacks](https://iohk.io/blog/preventing-sybil-attacks/)) from IOHK.
+
 ## Getting started
 
 The webapp is available [here](https://cffls.github.io/cardano-stake-pool-desirability/).
