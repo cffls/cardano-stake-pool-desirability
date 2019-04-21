@@ -61,6 +61,12 @@ class App extends Component {
       )
     );
 
+    var myopicIndividualReward = ADARound(
+      (myopicMemberReward * this.state.yourTotalStake) /
+        (this.state.totalStakeInCurrentPool -
+          this.state.totalStakeFromPoolLeaders)
+    );
+
     var myopicDesirability = ADARound(
       StakeSpecs.desirability(
         myopicTotalPoolReward,
@@ -94,6 +100,12 @@ class App extends Component {
       )
     );
 
+    var nonmyopicIndividualReward = ADARound(
+      (nonmyopicMemberReward * this.state.yourTotalStake) /
+        (this.state.totalStakeInCurrentPool -
+          this.state.totalStakeFromPoolLeaders)
+    );
+
     var nonmyopicDesirability = ADARound(
       StakeSpecs.desirability(
         nonmyopicTotalPoolReward,
@@ -114,10 +126,12 @@ class App extends Component {
       myopicTotalPoolReward: myopicTotalPoolReward,
       myopicPoolLeaderReward: myopicPoolLeaderReward,
       myopicMemberReward: myopicMemberReward,
+      myopicIndividualReward: myopicIndividualReward,
       myopicDesirability: myopicDesirability,
       nonmyopicTotalPoolReward: nonmyopicTotalPoolReward,
       nonmyopicPoolLeaderReward: nonmyopicPoolLeaderReward,
       nonmyopicMemberReward: nonmyopicMemberReward,
+      nonmyopicIndividualReward: nonmyopicIndividualReward,
       nonmyopicDesirability: nonmyopicDesirability
     });
   }
@@ -130,6 +144,7 @@ class App extends Component {
     var r = 20; //Rank of the pool
     var totalStakeInCurrentPool = 100000000;
     var totalStakeFromPoolLeaders = 1000000;
+    var yourTotalStake = 100000;
     var usdToADA = 0.05;
     var costPerEpochInUSD = 5;
     var m = 5; // Pool fee %
@@ -139,6 +154,7 @@ class App extends Component {
       targetNumPools: targetNumPools,
       totalStakeInCurrentPool: totalStakeInCurrentPool,
       totalStakeFromPoolLeaders: totalStakeFromPoolLeaders,
+      yourTotalStake: yourTotalStake,
       a0: a0,
       r: r,
       usdToADA: usdToADA,
@@ -249,6 +265,17 @@ class App extends Component {
                 defaultValue={this.state.totalStakeFromPoolLeaders}
               />
             </div>
+            <div>Your total stake</div>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text">₳</span>
+              </div>
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("yourTotalStake", e)}
+                defaultValue={this.state.yourTotalStake}
+              />
+            </div>
             <div>Exchange rate</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
@@ -300,8 +327,12 @@ class App extends Component {
                 <div>{this.state.myopicPoolLeaderReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Member reward per epoch</div>
+                <div>Total stake member reward per epoch</div>
                 <div>{this.state.myopicMemberReward}</div>
+              </li>
+              <li className="list-group-item">
+                <div>Your reward per epoch</div>
+                <div>{this.state.myopicIndividualReward}</div>
               </li>
               <li className="list-group-item">
                 <div>Desirability</div>
@@ -321,8 +352,12 @@ class App extends Component {
                 <div>{this.state.nonmyopicPoolLeaderReward}</div>
               </li>
               <li className="list-group-item">
-                <div>Member reward per epoch</div>
+                <div>Total stake member reward per epoch</div>
                 <div>{this.state.nonmyopicMemberReward}</div>
+              </li>
+              <li className="list-group-item">
+                <div>Your reward per epoch</div>
+                <div>{this.state.nonmyopicIndividualReward}</div>
               </li>
               <li className="list-group-item">
                 <div>Desirability</div>
