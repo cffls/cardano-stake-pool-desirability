@@ -140,9 +140,9 @@ class App extends Component {
     super(props);
     var currentTotalSupply = 31000000000;
     var a0 = 0.02; // Pool leader influence factor
-    var targetNumPools = 100;
+    var targetNumPools = 500;
     var r = 20; //Rank of the pool
-    var totalStakeInCurrentPool = 100000000;
+    var totalStakeInCurrentPool = currentTotalSupply / targetNumPools;
     var totalStakeFromPoolLeaders = 1000000;
     var yourTotalStake = 100000;
     var usdToADA = 0.05;
