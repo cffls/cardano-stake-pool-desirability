@@ -140,7 +140,7 @@ class App extends Component {
     super(props);
     var currentTotalSupply = 31000000000;
     var a0 = 0.02; // Pool leader influence factor
-    var targetNumPools = 500;
+    var targetNumPools = 1000;
     var r = 20; //Rank of the pool
     var totalStakeInCurrentPool = currentTotalSupply / targetNumPools;
     var totalStakeFromPoolLeaders = 1000000;
@@ -148,7 +148,7 @@ class App extends Component {
     var usdToADA = 0.05;
     var costPerEpochInUSD = 5;
     var m = 5; // Pool fee %
-    var inflationRate = 4.5; // Inflation rate in percent
+    var inflationRate = 6; // Inflation rate in percent
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
