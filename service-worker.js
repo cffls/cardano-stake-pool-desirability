@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/cardano-stake-pool-desirability/precache-manifest.0b06b9c64376ac57694f58609a48c81e.js"
+  "/cardano-stake-pool-desirability/precache-manifest.69eca058ed956151a64940068635db56.js"
 );
 
 workbox.clientsClaim();
