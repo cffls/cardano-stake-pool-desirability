@@ -11,6 +11,11 @@ function ADARound(amount) {
   return Math.round(amount * 1000000) / 1000000;
 }
 
+function USDRound(amount) {
+  // Round to 6 decimals
+  return Math.round(amount * 100) / 100;
+}
+
 class App extends Component {
   updateAll() {
     var z0 = StakeSpecs.z0(this.state.targetNumPools);
@@ -349,15 +354,15 @@ class App extends Component {
               </li>
               <li className="list-group-item">
                 <div>Pool leader reward per epoch</div>
-                <div>{this.state.nonmyopicPoolLeaderReward}</div>
+                <div>{this.state.nonmyopicPoolLeaderReward} (${USDRound(this.state.nonmyopicPoolLeaderReward * this.state.usdToADA)})</div>
               </li>
               <li className="list-group-item">
                 <div>Total stake member reward per epoch</div>
-                <div>{this.state.nonmyopicMemberReward}</div>
+                <div>{this.state.nonmyopicMemberReward} (${USDRound(this.state.nonmyopicMemberReward * this.state.usdToADA)})</div>
               </li>
               <li className="list-group-item">
                 <div>Your reward per epoch</div>
-                <div>{this.state.nonmyopicIndividualReward}</div>
+                <div>{this.state.nonmyopicIndividualReward} (${USDRound(this.state.nonmyopicIndividualReward * this.state.usdToADA)})</div>
               </li>
               <li className="list-group-item">
                 <div>Desirability</div>
