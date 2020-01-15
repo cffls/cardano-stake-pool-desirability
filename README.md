@@ -1,6 +1,6 @@
 ## What is this project?
 
-This project estimates desirabilities of Cardano stack pools, as well as rewards for stack pool leaders and stack pool members. <br>
+This project estimates desirabilities of Cardano stake pools, as well as rewards for stake pool leaders and stake pool members. <br>
 The calculation is based on [cardano delegation design specification](https://github.com/input-output-hk/cardano-ledger-specs/tree/master/shelley/design-spec). A compiled pdf version is available [here](https://github.com/cffls/cardano-stake-pool-desirability/blob/master/delegation_design_spec.pdf).
 
 ### What is desirability?
