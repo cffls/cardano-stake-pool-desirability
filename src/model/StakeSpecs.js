@@ -28,9 +28,9 @@ function t(
   );
 }
 
-function R(currentTotalSupply, inflationRate) {
+function R(currentTotalSupply, inflationRate, daysPerEpoch) {
   return (
-    currentTotalSupply * Math.pow(1 + inflationRate / 100, 1 / 73) -
+    currentTotalSupply * Math.pow(1 + inflationRate / 100, daysPerEpoch / 365) -
     currentTotalSupply
   );
 }

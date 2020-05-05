@@ -42,7 +42,8 @@ class App extends Component {
     var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
     var R = StakeSpecs.R(
       this.state.currentTotalSupply,
-      this.state.inflationRate
+      this.state.inflationRate,
+      this.state.daysPerEpoch
     );
     var myopicTotalPoolReward = ADARound(
       StakeSpecs.totalPoolReward(R, s, sigma, this.state.a0, z0)
@@ -153,7 +154,8 @@ class App extends Component {
     var usdToADA = 0.05;
     var costPerEpochInUSD = 5;
     var m = 5; // Pool fee %
-    var inflationRate = 6; // Inflation rate in percent
+    var inflationRate = 10; // Inflation rate in percent
+    var daysPerEpoch = 1;
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
@@ -165,7 +167,8 @@ class App extends Component {
       usdToADA: usdToADA,
       costPerEpochInUSD: costPerEpochInUSD,
       m: m,
-      inflationRate: inflationRate
+      inflationRate: inflationRate,
+      daysPerEpoch : daysPerEpoch
     };
   }
 
@@ -290,6 +293,14 @@ class App extends Component {
                 className="form-control"
                 onChange={e => this.handleChange("usdToADA", e)}
                 defaultValue={this.state.usdToADA}
+              />
+            </div>
+            <div>Days per epoch</div>
+            <div className="input-group mb-3">
+              <input
+                className="form-control"
+                onChange={e => this.handleChange("daysPerEpoch", e)}
+                defaultValue={this.state.daysPerEpoch}
               />
             </div>
             <div>Cost per epoch</div>
