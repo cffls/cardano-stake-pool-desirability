@@ -42,8 +42,7 @@ class App extends Component {
     var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
     var R = StakeSpecs.R(
       this.state.currentTotalSupply,
-      this.state.inflationRate,
-      this.state.daysPerEpoch
+      this.state.rho,
     );
     var myopicTotalPoolReward = ADARound(
       StakeSpecs.totalPoolReward(R, s, sigma, this.state.a0, z0)
@@ -145,17 +144,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     var currentTotalSupply = 31000000000;
-    var a0 = 0.02; // Pool leader influence factor
-    var targetNumPools = 1000;
+    var a0 = 0.3; // Pool leader influence factor
+    var targetNumPools = 150;
     var r = 20; //Rank of the pool
-    var totalStakeInCurrentPool = currentTotalSupply / targetNumPools;
+    var totalStakeInCurrentPool = USDRound(currentTotalSupply / targetNumPools);
     var totalStakeFromPoolLeaders = 1000000;
     var yourTotalStake = 100000;
-    var usdToADA = 0.05;
+    var usdToADA = 0.1;
     var costPerEpochInUSD = 5;
     var m = 5; // Pool fee %
-    var inflationRate = 10; // Inflation rate in percent
-    var daysPerEpoch = 1;
+    var rho = 0.22; // Monetary expansion rate
+    var daysPerEpoch = 5;
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
@@ -167,7 +166,7 @@ class App extends Component {
       usdToADA: usdToADA,
       costPerEpochInUSD: costPerEpochInUSD,
       m: m,
-      inflationRate: inflationRate,
+      rho: rho,
       daysPerEpoch : daysPerEpoch
     };
   }
@@ -208,15 +207,15 @@ class App extends Component {
                 defaultValue={this.state.currentTotalSupply}
               />
             </div>
-            <div>Inflation rate per year</div>
+            <div>Monetary expansion rate (ρ)</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">%</span>
               </div>
               <input
                 className="form-control"
-                onChange={e => this.handleChange("inflationRate", e)}
-                defaultValue={this.state.inflationRate}
+                onChange={e => this.handleChange("rho", e)}
+                defaultValue={this.state.rho}
               />
             </div>
             <div>Pool leader influence factor</div>
