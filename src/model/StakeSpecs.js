@@ -1,3 +1,5 @@
+const totalSupply = 45000000000;
+
 function z0(numPools) {
   return 1 / numPools;
 }
@@ -28,10 +30,9 @@ function t(
   );
 }
 
-function R(currentTotalSupply, inflationRate, daysPerEpoch) {
+function R(currentTotalSupply, rho) {
   return (
-    currentTotalSupply * Math.pow(1 + inflationRate / 100, daysPerEpoch / 365) -
-    currentTotalSupply
+    (totalSupply - currentTotalSupply) * rho / 100
   );
 }
 
