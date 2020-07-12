@@ -2,18 +2,17 @@ import React, { Component } from "react";
 import "./App.css";
 import StakeSpecs from "./model/StakeSpecs.js";
 
-function costInADA(costPerEpochInUSD, usdToADA) {
-  return ADARound(costPerEpochInUSD / usdToADA);
-}
-
 function ADARound(amount) {
   // Round to 6 decimals
   return Math.round(amount * 1000000) / 1000000;
 }
 
 function USDRound(amount) {
-  // Round to 6 decimals
   return Math.round(amount * 100) / 100;
+}
+
+function costInUSD(costPerEpoch, usdToADA) {
+  return USDRound(costPerEpoch * usdToADA);
 }
 
 class App extends Component {
@@ -39,7 +38,7 @@ class App extends Component {
       this.state.totalStakeFromPoolLeaders,
       this.state.currentTotalSupply
     );
-    var c = costInADA(this.state.costPerEpochInUSD, this.state.usdToADA);
+    var c = this.state.costPerEpoch;
     var R = StakeSpecs.R(
       this.state.currentTotalSupply,
       this.state.rho,
@@ -151,10 +150,9 @@ class App extends Component {
     var totalStakeFromPoolLeaders = 1000000;
     var yourTotalStake = 100000;
     var usdToADA = 0.1;
-    var costPerEpochInUSD = 5;
+    var costPerEpoch = 340;
     var m = 5; // Pool fee %
     var rho = 0.22; // Monetary expansion rate
-    var daysPerEpoch = 5;
     this.state = {
       currentTotalSupply: currentTotalSupply,
       targetNumPools: targetNumPools,
@@ -164,10 +162,9 @@ class App extends Component {
       a0: a0,
       r: r,
       usdToADA: usdToADA,
-      costPerEpochInUSD: costPerEpochInUSD,
+      costPerEpoch: costPerEpoch,
       m: m,
-      rho: rho,
-      daysPerEpoch : daysPerEpoch
+      rho: rho
     };
   }
 
@@ -294,26 +291,18 @@ class App extends Component {
                 defaultValue={this.state.usdToADA}
               />
             </div>
-            <div>Days per epoch</div>
-            <div className="input-group mb-3">
-              <input
-                className="form-control"
-                onChange={e => this.handleChange("daysPerEpoch", e)}
-                defaultValue={this.state.daysPerEpoch}
-              />
-            </div>
             <div>Cost per epoch</div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">$</span>
+                <span className="input-group-text">₳</span>
               </div>
               <input
                 className="form-control"
-                onChange={e => this.handleChange("costPerEpochInUSD", e)}
-                defaultValue={this.state.costPerEpochInUSD}
+                onChange={e => this.handleChange("costPerEpoch", e)}
+                defaultValue={this.state.costPerEpoch}
               />
               <div className="input-group-prepend">
-                <span className="input-group-text">₳ {this.state.c}</span>
+                <span className="input-group-text">$ {costInUSD(this.state.c, this.state.usdToADA)}</span>
               </div>
             </div>
             <div>Pool fee</div>
