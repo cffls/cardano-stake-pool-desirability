@@ -1,22 +1,20 @@
 {
   "files": {
-    "main.css": "/cardano-stake-pool-desirability/static/css/main.30d61759.chunk.css",
-    "main.js": "/cardano-stake-pool-desirability/static/js/main.0f89af8c.chunk.js",
-    "main.js.map": "/cardano-stake-pool-desirability/static/js/main.0f89af8c.chunk.js.map",
-    "runtime-main.js": "/cardano-stake-pool-desirability/static/js/runtime-main.7c372842.js",
-    "runtime-main.js.map": "/cardano-stake-pool-desirability/static/js/runtime-main.7c372842.js.map",
-    "static/js/2.96906621.chunk.js": "/cardano-stake-pool-desirability/static/js/2.96906621.chunk.js",
-    "static/js/2.96906621.chunk.js.map": "/cardano-stake-pool-desirability/static/js/2.96906621.chunk.js.map",
+    "main.css": "/cardano-stake-pool-desirability/static/css/main.0a50afbc.chunk.css",
+    "main.js": "/cardano-stake-pool-desirability/static/js/main.5d0478cf.chunk.js",
+    "main.js.map": "/cardano-stake-pool-desirability/static/js/main.5d0478cf.chunk.js.map",
+    "runtime-main.js": "/cardano-stake-pool-desirability/static/js/runtime-main.0e205060.js",
+    "runtime-main.js.map": "/cardano-stake-pool-desirability/static/js/runtime-main.0e205060.js.map",
+    "static/js/2.b269bbec.chunk.js": "/cardano-stake-pool-desirability/static/js/2.b269bbec.chunk.js",
+    "static/js/2.b269bbec.chunk.js.map": "/cardano-stake-pool-desirability/static/js/2.b269bbec.chunk.js.map",
     "index.html": "/cardano-stake-pool-desirability/index.html",
-    "precache-manifest.98709f53f218d36c06dbf55c78d36d42.js": "/cardano-stake-pool-desirability/precache-manifest.98709f53f218d36c06dbf55c78d36d42.js",
-    "service-worker.js": "/cardano-stake-pool-desirability/service-worker.js",
-    "static/css/main.30d61759.chunk.css.map": "/cardano-stake-pool-desirability/static/css/main.30d61759.chunk.css.map",
-    "static/js/2.96906621.chunk.js.LICENSE.txt": "/cardano-stake-pool-desirability/static/js/2.96906621.chunk.js.LICENSE.txt"
+    "static/css/main.0a50afbc.chunk.css.map": "/cardano-stake-pool-desirability/static/css/main.0a50afbc.chunk.css.map",
+    "static/js/2.b269bbec.chunk.js.LICENSE.txt": "/cardano-stake-pool-desirability/static/js/2.b269bbec.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7c372842.js",
-    "static/js/2.96906621.chunk.js",
-    "static/css/main.30d61759.chunk.css",
-    "static/js/main.0f89af8c.chunk.js"
+    "static/js/runtime-main.0e205060.js",
+    "static/js/2.b269bbec.chunk.js",
+    "static/css/main.0a50afbc.chunk.css",
+    "static/js/main.5d0478cf.chunk.js"
   ]
 }
